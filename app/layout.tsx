@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className={`${poppins.className} text-slate-700`}>
         <div className="flex flex-col min-h-screen">
           <NavBar />
-          <main className="flex flex-grow">{children}</main>
+          <main className="flex-grow">{children}</main>
           <Footer />
         </div>
       </body>

@@ -1,5 +1,15 @@
 import Image from "next/image";
+import Container from "./components/Container";
+import HomeBanner from "./components/HomeBanner/HomeBanner";
 
 export default function Home() {
-  return <div className="">E page</div>;
+  return (
+    <div className="p-8">
+      <Container>
+        <div>
+          <HomeBanner />
+        </div>
+      </Container>
+    </div>
+  );
 }
