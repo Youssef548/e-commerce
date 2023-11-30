@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Container from "./components/Container";
 import HomeBanner from "./components/HomeBanner/HomeBanner";
+import { products } from "@/utils/products";
+import TruncateText from "@/utils/Truncate";
 
 export default function Home() {
   return (
@@ -8,6 +10,11 @@ export default function Home() {
       <Container>
         <div>
           <HomeBanner />
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-8">
+          {products.map((product: any) => {
+            return <div>{TruncateText(product.name)}</div>;
+          })}
         </div>
       </Container>
     </div>
