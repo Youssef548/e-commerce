@@ -22,6 +22,7 @@ export default function RootLayout({
       <body className={`${poppins.className} text-slate-700`}>
         <div className="flex flex-col min-h-screen">
           <NavBar />
+          {/*  this content in page.tsx */}
           <main className="flex-grow">{children}</main>
           <Footer />
         </div>

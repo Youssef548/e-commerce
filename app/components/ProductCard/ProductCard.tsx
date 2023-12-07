@@ -4,6 +4,7 @@ import { formatPrice } from "@/utils/FormatPrice";
 import TruncateText from "@/utils/Truncate";
 import { Rating } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface ProductCardProps {
   data: any;
@@ -11,6 +12,8 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
   // Calc average of reviews
+
+  const router = useRouter();
 
   const productRating =
     data.reviews.reduce((acc: number, item: any) => item.rating + acc, 0) /
@@ -24,6 +27,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
     text-center
     text-sm
     "
+      onClick={() => router.push(`/product/${data.id}`)}
     >
       <div className="flex flex-col items-center w-full gap-1">
         <div className="aspect-square overflow-hidden relative w-full">
