@@ -1,6 +1,8 @@
 "use client";
 
+import Button from "@/app/Button";
 import SetColor from "@/app/components/Products/SetColor";
+import SetQuantity from "@/app/components/Products/SetQuantity";
 import { Rating } from "@mui/material";
 import { useCallback, useState } from "react";
 
@@ -41,13 +43,27 @@ const ProductDetails: React.FC<productDetailsProps> = ({ product }) => {
     price: product.price,
   });
 
-  console.log(cartProduct);
   const handleSetColor = useCallback(
     (value: SelectedImgType) => {
       setCartProduct((previous) => ({ ...previous, selectedImg: value }));
     },
     [cartProduct.selectedImg]
   );
+
+  const handleQTYIncrease = useCallback(() => {
+    if (cartProduct.quantity === 99) return;
+    setCartProduct((prev) => {
+      return { ...prev, quantity: prev.quantity + 1 };
+    });
+  }, [cartProduct]);
+
+  const handleQTYDecrease = useCallback(() => {
+    if (cartProduct.quantity > 1) {
+      setCartProduct((prev) => {
+        return { ...prev, quantity: prev.quantity-- };
+      });
+    }
+  }, [cartProduct]);
 
   const productRating =
     product.reviews.reduce((acc: number, item: any) => item.rating + acc, 0) /
@@ -82,9 +98,15 @@ const ProductDetails: React.FC<productDetailsProps> = ({ product }) => {
           handleColorSelect={handleSetColor}
         />
         <Horizontal />
-        <div>quantity</div>
+        <SetQuantity
+          cartProduct={cartProduct}
+          handleQTYIncrease={handleQTYIncrease}
+          handleQTYDecrease={handleQTYDecrease}
+        />
         <Horizontal />
-        <div>add to cart</div>
+        <div className="max-w-[300px]">
+          <Button label={"add to cart"} onClick={() => {}} />
+        </div>
       </div>
     </div>
   );
