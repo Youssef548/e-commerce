@@ -4,7 +4,8 @@ import HomeBanner from "./components/HomeBanner/HomeBanner";
 import { products } from "@/utils/products";
 import TruncateText from "@/utils/Truncate";
 import ProductCard from "./components/Products/ProductCard";
-
+// stop at 30 episode
+// Next is 31 episode
 export default function Home() {
   return (
     <div className="p-8">
