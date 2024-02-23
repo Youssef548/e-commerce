@@ -26,7 +26,7 @@ export default function RootLayout({
           toastOptions={{
             style: {
               background: "rgb(51 65 85)",
-              color: "fff",
+              color: "#ffff",
             },
           }}
         />
