@@ -1,6 +1,8 @@
 import { z, ZodError } from "zod";
 
 import { Request, Response, NextFunction } from "express";
+import { ServerSideError } from "../../utils/errors/serverSideError";
+import { ClientSideError } from "../../utils/errors/clientSideError";
 
 export const validate = (schema: z.ZodSchema<any>) => {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -9,11 +11,12 @@ export const validate = (schema: z.ZodSchema<any>) => {
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        res
-          .status(400)
-          .json({ error: error.errors.map((e) => e.message).join(", ") });
+        throw new ClientSideError(
+          error.errors.map((e) => e.message).join(", "),
+          400
+        );
       } else {
-        res.status(500).json({ error: "Internal server error" });
+        throw new ServerSideError("Internal server error", 500);
       }
     }
   };
