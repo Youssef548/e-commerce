@@ -15,7 +15,7 @@ export const userSchema = z.object({
     .optional(),
 });
 
-export const createUserShcema = z.object({
+export const createUserSchema = z.object({
   name: z.string({
     invalid_type_error: "Name must be string",
     required_error: "Name is required",
