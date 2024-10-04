@@ -4,6 +4,8 @@ import userRoutes from "./modules/users/user.routes";
 import authRoutes from "./modules/auth/auth.routes";
 import { ClientSideError } from "./utils/errors/clientSideError";
 import { GlobalError } from "./utils/errors/GlobalError";
+import { Prisma } from "@prisma/client";
+import errorHandler from "./modules/middlewares/globalErrorHandler";
 const app = express();
 app.use(express.json());
 
@@ -11,10 +13,7 @@ app.use(express.json());
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
-app.use((err: GlobalError, req: Request, res: Response, next: NextFunction) => {
-  res.status(err.code).json({
-    status: "error",
-    message: err.message,
-  });
-});
+
+app.use(errorHandler);
+
 export default app;
