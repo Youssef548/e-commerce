@@ -63,8 +63,6 @@ export const deleteUserById = asyncHandler(
 
     const userId: UserId = parseInt(req.params.userId, 10);
 
-    if (!userId) throw new ClientSideError("User id is required", 400);
-
     await deleteUser(userId);
     return { msg: "User deleted successfully" };
   },

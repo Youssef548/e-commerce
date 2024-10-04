@@ -9,7 +9,7 @@ import {
 } from "./user.controller";
 import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware";
 import { validate } from "../middlewares/validateMiddleware";
-import { userSchema } from "./schema";
+import { deleteUserSchema, userSchema } from "./schema";
 
 const router = Router();
 
@@ -19,5 +19,11 @@ router
   .get(authenticate, getCurrentUserProfile)
   .put(authenticate, validate(userSchema), updateCurrentUserProfile);
 
-router.delete("/:userId", authenticate, authorizeAdmin, deleteUserById);
+router.delete(
+  "/:userId",
+  authenticate,
+  authorizeAdmin,
+  validate(deleteUserSchema),
+  deleteUserById
+);
 export default router;
