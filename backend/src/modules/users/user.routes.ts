@@ -9,11 +9,13 @@ import {
 } from "./user.controller";
 import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware";
 import { validate } from "../middlewares/validateMiddleware";
-import { deleteUserSchema, userSchema } from "./schema";
+import { createUserShcema, deleteUserSchema, userSchema } from "./schema";
 
 const router = Router();
 
-router.post("/", addUser).get("/", authenticate, authorizeAdmin, getUsers);
+router
+  .post("/", validate(createUserShcema), addUser)
+  .get("/", authenticate, authorizeAdmin, getUsers);
 router
   .route("/profile")
   .get(authenticate, getCurrentUserProfile)

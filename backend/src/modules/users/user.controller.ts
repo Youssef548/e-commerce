@@ -14,9 +14,6 @@ import { ClientSideError } from "../../utils/errors/clientSideError";
 export const addUser = asyncHandler(async (req: Request, res: Response) => {
   const { email, name, password } = req.body;
 
-  if (!email || !name || !password) {
-    throw new ClientSideError("Email, name and password are required", 400);
-  }
   const user = await createUser(email, password, name);
 
   return user;
