@@ -25,7 +25,7 @@ router.delete(
   "/:userId",
   authenticate,
   authorizeAdmin,
-  validate(deleteUserSchema),
+  validate(undefined, deleteUserSchema),
   deleteUserById
 );
 export default router;
