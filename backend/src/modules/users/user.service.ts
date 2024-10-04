@@ -15,7 +15,7 @@ export const getUser = async (userId: UserId) => {
     },
   });
 
-  if (!userWithPassword) throw new ClientSideError("User not found", 401);
+  if (!userWithPassword) throw new ClientSideError("User not found", 404);
 
   const { password, ...user } = userWithPassword;
 
@@ -49,11 +49,21 @@ export const createUser = async (
 export const updateUser = async (userId: UserId, data: Partial<User>) => {
   if (!userId || !data)
     throw new ClientSideError("User id and data are required", 400);
+
   const userExists = await prisma.user.findUnique({
     where: {
       id: userId,
     },
   });
+
+  if (userExists && userExists.email !== data.email) {
+    const emailExists = await prisma.user.findUnique({
+      where: {
+        email: data.email,
+      },
+    });
+    if (emailExists) throw new ClientSideError("Email already exists", 400);
+  }
 
   if (!userExists) throw new ClientSideError("User not found", 400);
 
