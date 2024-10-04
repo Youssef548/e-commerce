@@ -24,6 +24,8 @@ export const getUser = async (userId: UserId) => {
 
 export const getAllUsers = async () => {
   const users = await prisma.user.findMany();
+  if (!users || users.length === 0)
+    throw new ClientSideError("Users not found", 404);
   return users;
 };
 
@@ -84,15 +86,14 @@ export const updateUser = async (userId: UserId, data: Partial<User>) => {
 };
 
 export const deleteUser = async (userId: UserId) => {
-  if (!userId) throw new ClientSideError("User id is required", 400);
-
+  
   const userExists = await prisma.user.findUnique({
     where: {
       id: userId,
     },
   });
 
-  if (!userExists) throw new ClientSideError("User not found", 401);
+  if (!userExists) throw new ClientSideError("User not found", 404);
 
   await prisma.user.delete({
     where: {
