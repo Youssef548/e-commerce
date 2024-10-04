@@ -12,7 +12,7 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use((err: GlobalError, req: Request, res: Response, next: NextFunction) => {
-  res.status(500).json({
+  res.status(err.code).json({
     status: "error",
     message: err.message,
   });
