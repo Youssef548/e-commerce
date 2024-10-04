@@ -8,6 +8,8 @@
     "gen:test": "dotenv -e .env.test -- prisma generate",
     "migrate:deploy": "dotenv -e .env.test -- prisma migrate deploy",
     "migrate:reset": "dotenv -e .env.test -- prisma migrate reset --force",
+    "mig": "dotenv -e .env -- prisma migrate dev",
+    "gen": "dotenv -e .env -- prisma generate",
     "test": "cross-env NODE_ENV=test dotenv -e .env.test jest --watch --config=jest.config.js",
     "start": "tsx --watch ./src/server.ts"
   },
@@ -31,10 +33,15 @@
   },
   "dependencies": {
     "@prisma/client": "^5.19.1",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
     "bcrypt": "^5.1.1",
-    "express": "^4.19.2",
+    "express": "^4.20.0",
     "jsonwebtoken": "^9.0.2",
     "supertest": "^7.0.0",
-    "tsx": "^4.19.0"
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "tsx": "^4.19.0",
+    "zod": "^3.23.8"
   }
 }
