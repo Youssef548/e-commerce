@@ -28,5 +28,5 @@ export const createUserShcema = z.object({
     .min(6, "Password must be at least 6 characters long"),
 });
 export const deleteUserSchema = z.object({
-  userId: z.number({ required_error: "UserId is required" }),
+  userId: z.string({ required_error: "UserId is required" }),
 });
