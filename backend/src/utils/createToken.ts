@@ -2,23 +2,18 @@ import jwt from "jsonwebtoken";
 import { User } from "@prisma/client";
 import { Response } from "express";
 
-type UserId = User["id"];
-const generateToken = (res: Response, userId: UserId) => {
+export interface UserWithToken extends Omit<User, "password"> {
+  token?: string; // or string | null if you want to allow null
+}
+const generateAuthToken = (user: UserWithToken) => {
   if (!process.env.JWT_SECRET) {
     throw new Error("JWT_SECRET is not defined");
   }
-
-  const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
     expiresIn: "1h",
   });
 
-  res.cookie("jwt", token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "development",
-    sameSite: "strict",
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-  });
-  return token;
+  user.token = token;
 };
 
-export default generateToken;
+export default generateAuthToken;
