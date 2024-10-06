@@ -5,6 +5,7 @@ import Loader from "../../components/Loader";
 import { setCredentials } from "../../redux/features/auth/authSlice";
 import { toast } from "react-toastify";
 import { useRegisterMutation } from "../../redux/api/usersApiSlice";
+import { UserInfo } from "../../types/users/userTypes";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -17,7 +18,7 @@ const Register = () => {
 
   const [register, { isLoading }] = useRegisterMutation();
   const { userInfo } = useSelector(
-    (state: { auth: { userInfo: any } }) => state.auth
+    (state: { auth: { userInfo: UserInfo } }) => state.auth
   );
 
   const { search } = useLocation();
