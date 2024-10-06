@@ -80,13 +80,14 @@ export const updateUser = async (userId: UserId, data: Partial<User>) => {
     data,
   });
 
+  generateAuthToken(userWithPassword);
+
   const { password, ...user } = userWithPassword;
 
   return user;
 };
 
 export const deleteUser = async (userId: UserId) => {
-  
   const userExists = await prisma.user.findUnique({
     where: {
       id: userId,
