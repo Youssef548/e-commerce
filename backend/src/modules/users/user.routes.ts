@@ -5,8 +5,9 @@ import {
   addUser,
   getCurrentUserProfile,
   updateCurrentUserProfile,
-  deleteUserById,
   getUserById,
+  updateUserById,
+  deleteUserById,
 } from "./user.controller";
 import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware";
 import { validate } from "../middlewares/validateMiddleware";
@@ -14,6 +15,7 @@ import {
   createUserSchema,
   deleteUserSchema,
   getUserSchema,
+  updateUserSchema,
   userSchema,
 } from "./schema";
 
@@ -104,7 +106,7 @@ const router = Router();
  *                 type: string
  *                 example: newPassword1A
  *     responses:
- *       200:
+ *       201:
  *         description: User profile updated successfully
  *       401:
  *         description: Unauthorized
@@ -136,6 +138,80 @@ const router = Router();
  *                   type: string
  *                 email:
  *                   type: string
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ */
+
+/**
+ * @openapi
+ * /api/users/{userId}:
+ *   get:
+ *     tags: [Users]
+ *     summary: Get a user by ID
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the user to retrieve
+ *     responses:
+ *       200:
+ *         description: User retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ *   put:
+ *     tags: [Users]
+ *     summary: Update a user by ID
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the user to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *       400:
+ *         description: Invalid input
  *       401:
  *         description: Unauthorized
  *       404:
@@ -181,6 +257,12 @@ router
     authorizeAdmin,
     validate(undefined, getUserSchema),
     getUserById
+  )
+  .put(
+    authenticate,
+    authorizeAdmin,
+    validate(undefined, updateUserSchema),
+    updateUserById
   )
   .delete(
     authenticate,

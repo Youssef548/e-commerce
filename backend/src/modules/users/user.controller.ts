@@ -65,6 +65,24 @@ export const updateCurrentUserProfile = asyncHandler(
   },
   200
 );
+
+export const updateUserById = asyncHandler(
+  async (req: Request, res: Response) => {
+    type UserId = User["id"];
+    const userId: UserId = parseInt(req.params.userId, 10);
+
+    const data = {
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+    };
+
+    const updatedUser = await updateUser(userId, data);
+    return updatedUser;
+  },
+  201
+);
+
 export const deleteUserById = asyncHandler(
   async (req: Request, res: Response) => {
     type UserId = User["id"];
