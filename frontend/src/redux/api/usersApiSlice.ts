@@ -26,8 +26,16 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
         headers: {
           Authorization: `Bearer ${data.token}`,
-        }
+        },
       }),
+    }),
+
+    getUsers: builder.query({
+      query: () => ({
+        url: USERS_URL,
+      }),
+      providesTags: ["User"],
+      keepUnusedDataFor: 5,
     }),
   }),
 });
