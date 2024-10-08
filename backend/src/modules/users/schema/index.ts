@@ -27,6 +27,11 @@ export const createUserSchema = z.object({
     .string({ required_error: "password is required" })
     .min(6, "Password must be at least 6 characters long"),
 });
+
 export const deleteUserSchema = z.object({
+  userId: z.string({ required_error: "UserId is required" }),
+});
+
+export const getUserSchema = z.object({
   userId: z.string({ required_error: "UserId is required" }),
 });
