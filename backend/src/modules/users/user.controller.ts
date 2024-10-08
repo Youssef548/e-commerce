@@ -38,6 +38,17 @@ export const getCurrentUserProfile = asyncHandler(
   }
 );
 
+export const getUserById = asyncHandler(async (req: Request, res: Response) => {
+  type UserId = User["id"];
+
+  const userId: UserId = parseInt(req.params.userId, 10);
+  const user = await getUser(userId);
+
+  if (!user) throw new ClientSideError("User not found", 404);
+
+  return user;
+});
+
 export const updateCurrentUserProfile = asyncHandler(
   async (req: Request, res: Response) => {
     if (req.user?.id === undefined)

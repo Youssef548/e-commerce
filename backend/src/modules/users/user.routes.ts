@@ -6,10 +6,16 @@ import {
   getCurrentUserProfile,
   updateCurrentUserProfile,
   deleteUserById,
+  getUserById,
 } from "./user.controller";
 import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware";
 import { validate } from "../middlewares/validateMiddleware";
-import { createUserSchema, deleteUserSchema, userSchema } from "./schema";
+import {
+  createUserSchema,
+  deleteUserSchema,
+  getUserSchema,
+  userSchema,
+} from "./schema";
 
 const router = Router();
 
@@ -103,6 +109,38 @@ const router = Router();
  *       401:
  *         description: Unauthorized
  */
+/**
+ * @openapi
+ * /api/users/{userId}:
+ *   get:
+ *     tags: [Users]
+ *     summary: Get a user by ID
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the user to retrieve
+ *     responses:
+ *       200:
+ *         description: User retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 email:
+ *                   type: string
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: User not found
+ */
 
 /**
  * @openapi
@@ -135,12 +173,20 @@ router
   .get(authenticate, getCurrentUserProfile)
   .put(authenticate, validate(userSchema), updateCurrentUserProfile);
 
-router.delete(
-  "/:userId",
-  authenticate,
-  authorizeAdmin,
-  validate(undefined, deleteUserSchema),
-  deleteUserById
-);
+// admin routes
+router
+  .route("/:userId")
+  .get(
+    authenticate,
+    authorizeAdmin,
+    validate(undefined, getUserSchema),
+    getUserById
+  )
+  .delete(
+    authenticate,
+    authorizeAdmin,
+    validate(undefined, deleteUserSchema),
+    deleteUserById
+  );
 
 export default router;
