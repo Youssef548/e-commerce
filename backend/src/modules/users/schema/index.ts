@@ -35,3 +35,7 @@ export const deleteUserSchema = z.object({
 export const getUserSchema = z.object({
   userId: z.string({ required_error: "UserId is required" }),
 });
+
+export const updateUserSchema = z.object({
+  userId: z.string({ required_error: "UserId is required" }),
+});
