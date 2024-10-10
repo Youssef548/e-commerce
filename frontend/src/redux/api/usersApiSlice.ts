@@ -1,5 +1,7 @@
 import { apiSlice } from "./apiSlice";
 import { AUTH_URL, USERS_URL } from "../constants";
+const userInfo = localStorage.getItem("userInfo");
+const token = userInfo ? JSON.parse(userInfo).token : null;
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -33,6 +35,9 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     getUsers: builder.query({
       query: () => ({
         url: USERS_URL,
+        headers: {
+          Authorization: token ? `Bearer ${token}` : "",
+        },
       }),
       providesTags: ["User"],
       keepUnusedDataFor: 5,
@@ -41,6 +46,9 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     getUserDetails: builder.query({
       query: (userId) => ({
         url: `${USERS_URL}/${userId}`,
+        headers: {
+          Authorization: token ? `Bearer ${token}` : "",
+        },
       }),
       providesTags: ["User"],
       keepUnusedDataFor: 5,
@@ -49,6 +57,9 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     updateUser: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}/${data.userId}`,
+        headers: {
+          Authorization: token ? `Bearer ${token}` : "",
+        },
         method: "PUT",
         body: data,
       }),
@@ -58,6 +69,9 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     deleteUser: builder.mutation({
       query: (userId) => ({
         url: `${USERS_URL}/${userId}`,
+        headers: {
+          Authorization: token ? `Bearer ${token}` : "",
+        },
         method: "DELETE",
       }),
     }),
