@@ -49,7 +49,7 @@ export const createUser = async (
 };
 
 export const updateUser = async (userId: UserId, data: Partial<User>) => {
-  if (!userId || !data)
+  if (!userId || !data || !data.email)
     throw new ClientSideError("User id and data are required", 400);
 
   const userExists = await prisma.user.findUnique({
