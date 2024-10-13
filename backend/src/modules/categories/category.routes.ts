@@ -1,8 +1,12 @@
 import { Router } from "express";
-import { createCategory } from "./category.controller";
+import { createCategory, updateCategory } from "./category.controller";
 import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware";
 import { validate } from "../middlewares/validateMiddleware";
-import { createCategorySchema } from "./schemas/categorySchema";
+import {
+  createCategorySchema,
+  updateCategoryParams,
+  updateCategorySchema,
+} from "./schemas/categorySchema";
 const router = Router();
 
 router
@@ -11,7 +15,17 @@ router
     authenticate,
     authorizeAdmin,
     validate(createCategorySchema, undefined),
-    createCategory
+    createCategory,
+    updateCategory
+  );
+
+router
+  .route("/:categoryId")
+  .put(
+    authenticate,
+    authorizeAdmin,
+    validate(updateCategorySchema, updateCategoryParams),
+    updateCategory
   );
 
 export default router;
