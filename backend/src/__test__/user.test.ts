@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import request from "supertest";
 import app from "../index"; // Assuming the Express app is exported from index.ts
 import { faker } from "@faker-js/faker/.";
