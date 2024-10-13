@@ -1,9 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import request from "supertest";
 import app from "../index"; // Assuming the Express app is exported from index.ts
-
-const prisma = new PrismaClient();
-
+import { faker } from "@faker-js/faker/.";
+import prisma from "../prisma/prisma";
 describe("User API", () => {
   // Before running the tests, clear the test database
   beforeAll(async () => {
@@ -17,15 +16,18 @@ describe("User API", () => {
 
   let authToken: string;
 
+  const randomEmail = faker.internet.email(); // Generate a random email
+  const randomPassword = faker.internet.password(); // Generate a random password
+  const randomName = faker.name.fullName(); // Generate a random name
   it("should create a new user", async () => {
     const response = await request(app).post("/api/users").send({
-      email: "test@example.com",
-      password: "54871900aA",
-      name: "Test User",
+      email: randomEmail,
+      password: randomPassword,
+      name: randomName,
     });
 
     expect(response.status).toBe(201);
-    expect(response.body.email).toBe("test@example.com");
+    expect(response.body.email).toBe(randomEmail);
   });
 
   it("should not allow fetching users without authentication", async () => {
@@ -36,8 +38,8 @@ describe("User API", () => {
 
   it("should log in a user and return a token", async () => {
     const loginResponse = await request(app).post("/api/auth/login").send({
-      email: "test@example.com",
-      password: "54871900aA",
+      email: randomEmail,
+      password: randomPassword,
     });
 
     expect(loginResponse.status).toBe(200);
@@ -58,7 +60,7 @@ describe("User API", () => {
   it("should make a user admin using Prisma", async () => {
     // Assume you have created a user with this email
     const user = await prisma.user.findUnique({
-      where: { email: "test@example.com" },
+      where: { email: randomEmail },
     });
 
     expect(user).not.toBeNull();
@@ -90,7 +92,7 @@ describe("User API", () => {
       .send();
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("email", "test@example.com");
+    expect(response.body).toHaveProperty("email", randomEmail);
   });
 
   it("should update the current user profile", async () => {
@@ -98,23 +100,28 @@ describe("User API", () => {
       .put("/api/users/profile")
       .set("Authorization", `Bearer ${authToken}`)
       .send({
-        email: "newemail@example.com",
-        name: "Updated User",
-        password: "newPassword1A",
+        email: randomEmail,
+        name: randomName,
+        password: randomPassword,
       });
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("email", "newemail@example.com");
+    expect(response.body).toHaveProperty("email", randomEmail);
   });
 
   it("should delete a user by ID", async () => {
+    const randomEmail = faker.internet.email(); // Generate a random email
+    const randomPassword = faker.internet.password(); // Generate a random password
+    const randomName = faker.name.fullName(); // Generate a random name
     // First, create a new user to delete
     const newUserResponse = await request(app).post("/api/users").send({
-      email: "deleteuser@example.com",
-      password: "DeletePass123",
-      name: "Delete Me",
+      email: randomEmail,
+      password: randomPassword,
+      name: randomName,
     });
 
+    expect(newUserResponse.status).toBe(201);
+    expect(newUserResponse.body).toHaveProperty("email", randomEmail);
     const userId = newUserResponse.body.id;
 
     const deleteResponse = await request(app)
