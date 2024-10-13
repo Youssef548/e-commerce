@@ -17,7 +17,7 @@ describe("User API", () => {
 
   const randomEmail = faker.internet.email(); // Generate a random email
   const randomPassword = faker.internet.password(); // Generate a random password
-  const randomName = faker.name.fullName(); // Generate a random name
+  const randomName = faker.person.fullName(); // Generate a random name
   it("should create a new user", async () => {
     const response = await request(app).post("/api/users").send({
       email: randomEmail,
