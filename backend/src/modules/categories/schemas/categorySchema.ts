@@ -21,3 +21,9 @@ export const updateCategorySchema = z.object({
     invalid_type_error: "name must be string",
   }),
 });
+
+export const deleteCategoryParams = z.object({
+  categoryId: z.string({
+    required_error: "Id is required",
+  }),
+});
