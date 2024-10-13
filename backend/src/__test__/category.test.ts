@@ -74,4 +74,13 @@ describe("Admin - Category API", () => {
     expect(response.status).toBe(200);
     expect(response.body.name).toBe("Updated Admin Test Category");
   });
+
+  it("it should allow admin delete existing category", async () => {
+    const response = await request(app)
+      .delete(`/api/category/${categoryId}`)
+      .set("Authorization", `Bearer ${authToken}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.name).toBe("Updated Admin Test Category");
+  });
 });
