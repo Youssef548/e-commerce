@@ -111,7 +111,7 @@ describe("User API", () => {
   it("should delete a user by ID", async () => {
     const randomEmail = faker.internet.email(); // Generate a random email
     const randomPassword = faker.internet.password(); // Generate a random password
-    const randomName = faker.name.fullName(); // Generate a random name
+    const randomName = faker.person.fullName(); // Generate a random name
     // First, create a new user to delete
     const newUserResponse = await request(app).post("/api/users").send({
       email: randomEmail,
