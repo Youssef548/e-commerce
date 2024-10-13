@@ -25,6 +25,7 @@ describe("Admin - Category API", () => {
   });
 
   let authToken: string;
+  let categoryId: string;
 
   const randomEmail = faker.internet.email();
   const randomPassword = faker.internet.password();
@@ -61,5 +62,16 @@ describe("Admin - Category API", () => {
 
     expect(response.status).toBe(201);
     expect(response.body.name).toBe("Admin Test Category");
+    categoryId = response.body.id;
+  });
+
+  it("it should allow admin update existing category", async () => {
+    const response = await request(app)
+      .put(`/api/category/${categoryId}`)
+      .set("Authorization", `Bearer ${authToken}`)
+      .send({ name: "Updated Admin Test Category" });
+
+    expect(response.status).toBe(200);
+    expect(response.body.name).toBe("Updated Admin Test Category");
   });
 });
