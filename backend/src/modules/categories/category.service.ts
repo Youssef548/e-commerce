@@ -50,7 +50,7 @@ export const deleteCategoryService = async (id: string) => {
   return deletedCategory;
 };
 
-export const listCategorys = async () => {
+export const listCategorysService = async () => {
   const categories = await prisma.category.findMany();
   return categories;
 };
