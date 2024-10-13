@@ -32,3 +32,20 @@ export const updateCategoryService = async (
 
   return updatedCategory;
 };
+
+export const deleteCategoryService = async (id: string) => {
+  const categoryId = parseInt(id);
+  const categoryExists = await prisma.category.findUnique({
+    where: { id: categoryId },
+  });
+
+  if (!categoryExists) {
+    throw new ClientSideError("Category not found", 404);
+  }
+
+  const deletedCategory = await prisma.category.delete({
+    where: { id: categoryId },
+  });
+
+  return deletedCategory;
+};
