@@ -2,6 +2,7 @@ import { Request } from "express";
 import asyncHandler from "../middlewares/asyncHandler";
 import {
   createCategoryService,
+  deleteCategoryService,
   updateCategoryService,
 } from "./category.service";
 
@@ -18,6 +19,14 @@ export const updateCategory = asyncHandler(async (req: Request) => {
   const data = { name } as { name: string };
 
   const category = await updateCategoryService(categoryId, data);
+
+  return category;
+}, 200);
+
+export const deleteCategory = asyncHandler(async (req: Request) => {
+  const { categoryId } = req.params;
+
+  const category = await deleteCategoryService(categoryId);
 
   return category;
 }, 200);
