@@ -3,6 +3,7 @@ import asyncHandler from "../middlewares/asyncHandler";
 import {
   createCategoryService,
   deleteCategoryService,
+  listCategoriesService,
   updateCategoryService,
 } from "./category.service";
 
@@ -30,3 +31,9 @@ export const deleteCategory = asyncHandler(async (req: Request) => {
 
   return category;
 }, 200);
+
+export const listCategories = asyncHandler(async () => {
+  const categories = await listCategoriesService();
+
+  return categories;
+});
