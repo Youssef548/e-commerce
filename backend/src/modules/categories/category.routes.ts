@@ -1,9 +1,14 @@
 import { Router } from "express";
-import { createCategory, updateCategory } from "./category.controller";
+import {
+  createCategory,
+  deleteCategory,
+  updateCategory,
+} from "./category.controller";
 import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware";
 import { validate } from "../middlewares/validateMiddleware";
 import {
   createCategorySchema,
+  deleteCategoryParams,
   updateCategoryParams,
   updateCategorySchema,
 } from "./schemas/categorySchema";
@@ -26,6 +31,12 @@ router
     authorizeAdmin,
     validate(updateCategorySchema, updateCategoryParams),
     updateCategory
+  )
+  .delete(
+    authenticate,
+    authorizeAdmin,
+    validate(undefined, deleteCategoryParams),
+    deleteCategory
   );
 
 export default router;
