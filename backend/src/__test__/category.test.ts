@@ -28,7 +28,7 @@ describe("Admin - Category API", () => {
 
   const randomEmail = faker.internet.email();
   const randomPassword = faker.internet.password();
-  const randomName = faker.name.fullName();
+  const randomName = faker.person.fullName();
 
   it("should create a new user", async () => {
     const response = await request(app).post("/api/users").send({
