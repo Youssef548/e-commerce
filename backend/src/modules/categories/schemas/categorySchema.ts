@@ -8,3 +8,16 @@ export const createCategorySchema = z.object({
     })
     .trim(),
 });
+
+export const updateCategoryParams = z.object({
+  categoryId: z.string({
+    required_error: "Id is required",
+  }),
+});
+
+export const updateCategorySchema = z.object({
+  name: z.string({
+    required_error: "name is required",
+    invalid_type_error: "name must be string",
+  }),
+});
