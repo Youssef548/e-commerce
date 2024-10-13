@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createCategory,
   deleteCategory,
+  listCategories,
   updateCategory,
 } from "./category.controller";
 import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware";
@@ -38,5 +39,7 @@ router
     validate(undefined, deleteCategoryParams),
     deleteCategory
   );
+
+router.route("/categories").get(listCategories);
 
 export default router;
