@@ -5,6 +5,7 @@ import {
   deleteCategoryService,
   listCategoriesService,
   updateCategoryService,
+  getCategoryService
 } from "./category.service";
 
 export const createCategory = asyncHandler(async (req: Request) => {
@@ -13,6 +14,13 @@ export const createCategory = asyncHandler(async (req: Request) => {
   const category = await createCategoryService(name);
   return category;
 }, 201);
+
+export const readCategory = asyncHandler(async (req: Request) => {
+  const { categoryId } = req.params;
+
+  const category = await getCategoryService(categoryId);
+  return category;
+}, 200);
 
 export const updateCategory = asyncHandler(async (req: Request) => {
   const { categoryId } = req.params;
