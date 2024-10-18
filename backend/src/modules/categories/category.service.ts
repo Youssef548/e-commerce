@@ -16,6 +16,11 @@ export const getCategoryService = async (id: string) => {
   const category = await prisma.category.findUnique({
     where: { id: categoryId },
   });
+
+  if (!category) {
+    throw new ClientSideError("Category not found", 404);
+  }
+
   return category;
 };
 
