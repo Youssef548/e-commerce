@@ -11,6 +11,14 @@ export const createCategoryService = async (name: string) => {
   return category;
 };
 
+export const getCategoryService = async (id: string) => {
+  const categoryId = parseInt(id);
+  const category = await prisma.category.findUnique({
+    where: { id: categoryId },
+  });
+  return category;
+};
+
 export const updateCategoryService = async (
   id: string,
   data: { name: string }
