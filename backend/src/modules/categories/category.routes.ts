@@ -3,6 +3,7 @@ import {
   createCategory,
   deleteCategory,
   listCategories,
+  readCategory,
   updateCategory,
 } from "./category.controller";
 import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware";
@@ -12,6 +13,7 @@ import {
   deleteCategoryParams,
   updateCategoryParams,
   updateCategorySchema,
+  readCategorySchema
 } from "./schemas/categorySchema";
 const router = Router();
 /**
@@ -149,6 +151,7 @@ router
 
 router
   .route("/:categoryId")
+  .get(validate(readCategorySchema, undefined),readCategory)
   .put(
     authenticate,
     authorizeAdmin,
