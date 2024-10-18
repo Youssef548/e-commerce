@@ -13,7 +13,7 @@ import {
   deleteCategoryParams,
   updateCategoryParams,
   updateCategorySchema,
-  readCategorySchema
+  readCategorySchema,
 } from "./schemas/categorySchema";
 const router = Router();
 /**
@@ -72,6 +72,39 @@ const router = Router();
  *         description: Invalid input
  *       401:
  *         description: Unauthorized
+ */
+
+/**
+ * @openapi
+ *
+ * /api/category/{categoryId}:
+ *   get:
+ *     tags: [category]
+ *     summary: Retrieve a category by ID
+ *     parameters:
+ *       - in: path
+ *         name: categoryId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the category to retrieve
+ *     responses:
+ *       200:
+ *         description: Category retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *       400:
+ *         description: Invalid category ID
+ *       404:
+ *         description: Category not found
+ *
  */
 
 /**
@@ -151,7 +184,7 @@ router
 
 router
   .route("/:categoryId")
-  .get(validate(readCategorySchema, undefined),readCategory)
+  .get(validate(readCategorySchema, undefined), readCategory)
   .put(
     authenticate,
     authorizeAdmin,
