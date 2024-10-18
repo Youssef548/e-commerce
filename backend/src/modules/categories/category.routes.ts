@@ -13,7 +13,7 @@ import {
   deleteCategoryParams,
   updateCategoryParams,
   updateCategorySchema,
-  readCategorySchema,
+  readCategoryParams,
 } from "./schemas/categorySchema";
 const router = Router();
 /**
@@ -77,7 +77,7 @@ const router = Router();
 /**
  * @openapi
  *
- * /api/category/{categoryId}:
+ * /api/category/categories/{categoryId}:
  *   get:
  *     tags: [category]
  *     summary: Retrieve a category by ID
@@ -184,7 +184,6 @@ router
 
 router
   .route("/:categoryId")
-  .get(validate(readCategorySchema, undefined), readCategory)
   .put(
     authenticate,
     authorizeAdmin,
@@ -199,5 +198,8 @@ router
   );
 
 router.route("/categories").get(listCategories);
+router
+  .route("/categories/:categoryId")
+  .get(validate(undefined, readCategoryParams), readCategory);
 
 export default router;

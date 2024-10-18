@@ -28,7 +28,7 @@ export const deleteCategoryParams = z.object({
   }),
 });
 
-export const readCategorySchema = z.object({
+export const readCategoryParams = z.object({
   categoryId: z.string({
     required_error: "Id is required",
   }),
